@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"tf-yc-instance","Source":"./modules/tf-yc-instance","Dir":"modules/tf-yc-instance"},{"Key":"tf-yc-network","Source":"./modules/tf-yc-network","Dir":"modules/tf-yc-network"}]}

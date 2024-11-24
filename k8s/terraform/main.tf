@@ -37,15 +37,20 @@ module "kafka" {
   depends_on = [module.prepare]
 }
 
-# module "postgresql" {
-#   source            = "./modules/postgresql"
-#   postgres_host     = var.postgres_host
-#   postgres_password = var.postgres_password
-#   postgres_user     = var.postgres_user
-#   postgres_db       = var.postgres_db
-#   namespace = var.database_namespace
-#   depends_on = [module.prepare]
-# }
+module "postgresql" {
+  source            = "./modules/postgresql"
+  postgres_host     = var.postgres_host
+  postgres_password = var.postgres_password
+  postgres_user     = var.postgres_user
+  postgres_db       = var.postgres_db
+  namespace = var.database_namespace
+  depends_on = [module.prepare]
+}
+
+module "krakend" {
+  source            = "./modules/krakend"
+  depends_on = [module.prepare]
+}
 
 
 

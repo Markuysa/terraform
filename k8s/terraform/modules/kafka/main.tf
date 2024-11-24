@@ -79,6 +79,16 @@ resource "kubernetes_stateful_set" "kafka" {
       }
 
       spec {
+        init_container {
+          name  = "init-permissions"
+          image = "busybox"
+          command = ["sh", "-c", "chmod -R 777 /var/lib/kafka/data"]
+          volume_mount {
+            name       = "kafka-storage"
+            mount_path = "/var/lib/kafka/data"
+          }
+        }
+
         container {
           name  = "kafka"
           image = "confluentinc/cp-kafka:latest" # Используйте образ Kafka, поддерживающий KRaft режим

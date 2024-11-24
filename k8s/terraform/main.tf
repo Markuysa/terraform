@@ -53,13 +53,12 @@ module "krakend" {
 }
 
 
+module "kafka-exporter" {
+  source            = "./modules/exporter/kafka"
+  depends_on = [module.postgresql]
+}
 
-
-
-# module "graylog" {
-#   source                  = "./modules/graylog"
-#   graylog_host            = var.graylog_host
-#   graylog_password_secret = var.graylog_password_secret
-#   graylog_root_password_sha2 = var.graylog_root_password_sha2
-#   namespace = var.monitoring_namespace
-# }
+module "postgres-exporter" {
+  source            = "./modules/exporter/postgres"
+  depends_on = [module.postgresql]
+}

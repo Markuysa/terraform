@@ -62,3 +62,8 @@ module "postgres-exporter" {
   source            = "./modules/exporter/postgres"
   depends_on = [module.postgresql]
 }
+
+module "node_exporter" {
+  source    = "./modules/exporter/node"
+  depends_on = [module.prepare]
+}

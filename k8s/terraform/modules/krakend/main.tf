@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "krakend_config" {
   }
 
   data = {
-    "krakend.json" = "{}"
+    "krakend.json" = "{\"version\":3,\"endpoints\":[{\"endpoint\":\"/api/v1/\",\"method\":\"GET\",\"backend\":{\"url_pattern\":\"http://api:8080\",\"encoding\":\"json\"}}]}"
   }
 }
 

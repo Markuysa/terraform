@@ -4,18 +4,68 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15de1536-fa8d-4cd5-8560-0e5047c20b90" name="Changes" comment="" />
+    <list default="true" id="15de1536-fa8d-4cd5-8560-0e5047c20b90" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/k8s/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/grafana/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/graylog/graylog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/jaeger/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/kafka/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/postgresql/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/prometheus/etc/prometheus/prometheus.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/prometheus/pv.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/helm/prometheus/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/grafana/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/grafana/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/graylog/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/graylog/mongo.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/graylog/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/jaeger/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/jaeger/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/kafka/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/kafka/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/postgresql/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/postgresql/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/prepare/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/prometheus/main.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/modules/prometheus/variables.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/provider.tf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/terraform.tfvars" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/terraform/variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/.terraform/modules/modules.json" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/.terraform/modules/modules.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-instance/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-instance/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-instance/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-instance/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-instance/outputs.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-instance/outputs.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-instance/variables.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-instance/variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-instance/versions.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-instance/versions.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-network/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-network/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-network/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-network/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-network/outputs.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-network/outputs.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-network/variables.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-network/variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/modules/tf-yc-network/versions.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/modules/tf-yc-network/versions.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/outputs.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/outputs.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/provider.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/provider.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/variables.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/terraform/versions.tf" beforeDir="false" afterPath="$PROJECT_DIR$/yandex-cloud/versions.tf" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="GOROOT" url="file:///opt/homebrew/opt/go/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2ozUghmn49CXxLzlb2RxS9Ie7lP" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -31,9 +81,10 @@
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "Terraform.Plan directory terraform.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "terraform",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/markuysa",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/markuysa/GolandProjects/Study/terraform/k8s",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -42,6 +93,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/k8s" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/terraform" />
       <recent name="$PROJECT_DIR$" />

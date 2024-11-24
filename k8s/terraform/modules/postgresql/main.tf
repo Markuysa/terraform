@@ -1,4 +1,45 @@
-resource "kubernetes_deployment" "postgresql" {
+resource "kubernetes_persistent_volume" "postgres_pv" {
+  metadata {
+    name = "postgres-pv"
+  }
+
+  spec {
+    capacity = {
+      storage = "5Gi"
+    }
+
+    access_modes = ["ReadWriteOnce"]
+
+    persistent_volume_source {
+      host_path {
+        path = "/mnt/data"
+      }
+    }
+
+    storage_class_name = "local-path"
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "postgres_pvc" {
+  metadata {
+    name      = "${var.name}-data"
+    namespace = var.namespace
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
+
+    storage_class_name = "local-path"
+  }
+}
+
+resource "kubernetes_stateful_set" "postgresql" {
   metadata {
     name      = var.name
     namespace = var.namespace
@@ -85,11 +126,12 @@ resource "kubernetes_deployment" "postgresql" {
           name = "postgresql-persistent-storage"
 
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.postgresql.metadata[0].name
+            claim_name = kubernetes_persistent_volume_claim.postgres_pvc.metadata[0].name
           }
         }
       }
     }
+    service_name = ""
   }
 }
 
@@ -110,67 +152,6 @@ resource "kubernetes_service" "postgresql" {
     }
 
     type = "ClusterIP"
-  }
-}
-
-resource "kubernetes_persistent_volume" "postgresql" {
-  metadata {
-    name = "postgresql-pv"
-  }
-
-  spec {
-    capacity = {
-      storage = "4Gi"
-    }
-
-    access_modes = ["ReadWriteOnce"]
-
-    persistent_volume_reclaim_policy = "Retain"
-
-    storage_class_name = "local-path"
-
-    persistent_volume_source {
-      host_path {
-        path = "/mnt/data"
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim" "postgresql" {
-  metadata {
-    name      = var.name
-    namespace = var.namespace
-  }
-
-  spec {
-    access_modes = ["ReadWriteOnce"]
-
-    resources {
-      requests = {
-        storage = "4Gi"
-      }
-    }
-
-    storage_class_name = "local-path"
-  }
-}
-
-resource "kubernetes_horizontal_pod_autoscaler" "postgresql" {
-  metadata {
-    name      = var.name
-    namespace = var.namespace
-  }
-
-  spec {
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment.postgresql.metadata[0].name
-    }
-
-    min_replicas                    = 1
-    max_replicas                    = 10
-    target_cpu_utilization_percentage = 60
+    cluster_ip = "None"
   }
 }

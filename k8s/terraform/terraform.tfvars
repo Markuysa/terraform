@@ -17,3 +17,7 @@ postgres_db       = "postgres_db"
 
 prometheus_host   = "prometheus.example.com"
 prometheus_config = "/etc/prometheus/prometheus.yml"
+
+monitoring_namespace = "monitoring"
+kafka_namespace      = "kafka"
+database_namespace   = "database"

@@ -1,12 +1,70 @@
-resource "kubernetes_deployment" "kafka" {
+resource "kubernetes_persistent_volume" "kafka_pv" {
+  metadata {
+    name = "kafka-pv"
+  }
+
+  spec {
+    capacity = {
+      "storage" = "10Gi"
+    }
+
+    volume_mode = "Filesystem"
+    access_modes = ["ReadWriteOnce"]
+    persistent_volume_reclaim_policy = "Retain"
+
+    persistent_volume_source {
+      host_path {
+        path = "/mnt/data/kafka"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "kafka_pvc" {
+  metadata {
+    name      = "kafka-pvc"
+    namespace = var.namespace
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "10Gi"
+      }
+    }
+
+    volume_name = kubernetes_persistent_volume.kafka_pv.metadata[0].name
+  }
+}
+
+resource "kubernetes_service" "kafka_headless_service" {
   metadata {
     name      = var.name
     namespace = var.namespace
   }
 
   spec {
-    replicas = 1
+    cluster_ip = "None" # Headless service (no cluster IP)
+    port {
+      port        = 9092
+      target_port = 9092
+    }
 
+    selector = {
+      app = "kafka"
+    }
+  }
+}
+resource "kubernetes_stateful_set" "kafka" {
+  metadata {
+    name      = var.name
+    namespace = var.namespace
+  }
+
+  spec {
+    service_name = "kafka"
+    replicas     = 1
     selector {
       match_labels = {
         app = "kafka"
@@ -23,140 +81,74 @@ resource "kubernetes_deployment" "kafka" {
       spec {
         container {
           name  = "kafka"
-          image = "bitnami/kafka:latest"
-
-          # Specify roles: both broker and controller
-          env {
-            name  = "KAFKA_CFG_PROCESS_ROLES"
-            value = "broker,controller"
+          image = "confluentinc/cp-kafka:latest" # Используйте образ Kafka, поддерживающий KRaft режим
+          port {
+            container_port = 9092
           }
 
-          # Unique node ID for this Kafka broker
           env {
-            name  = "KAFKA_CFG_NODE_ID"
-            value = "1"
-          }
-
-          # Controller quorum configuration
-          env {
-            name  = "KAFKA_CFG_CONTROLLER_QUORUM_VOTERS"
-            value = "1@localhost:9093"
-          }
-
-          # Listener configurations
-          env {
-            name  = "KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP"
+            name  = "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP"
             value = "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
           }
 
           env {
-            name  = "KAFKA_CFG_LISTENERS"
-            value = "PLAINTEXT://:9092,CONTROLLER://:9093"
+            name  = "KAFKA_LISTENERS"
+            value = "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093" # Добавьте слушатели
           }
 
-          # Advertised listeners
           env {
-            name  = "KAFKA_CFG_ADVERTISED_LISTENERS"
-            value = "PLAINTEXT://kafka:9092"
+            name  = "KAFKA_ADVERTISED_LISTENERS"
+            value = "PLAINTEXT://kafka.monitoring.svc.cluster.local:9092" # Обновите объявленные слушатели
           }
 
-          # Define the listener name for the controller role
           env {
-            name  = "KAFKA_CFG_CONTROLLER_LISTENER_NAMES"
-            value = "CONTROLLER"
+            name  = "KAFKA_CONTROLLER_LISTENER_NAMES"
+            value = "CONTROLLER" # Убедитесь, что это соответствует вашим слушателям
           }
 
-          # Inter-broker communication listener
           env {
-            name  = "KAFKA_CFG_INTER_BROKER_LISTENER_NAME"
+            name  = "KAFKA_INTER_BROKER_LISTENER_NAME"
             value = "PLAINTEXT"
           }
 
-          # Kafka log directories
           env {
-            name  = "KAFKA_LOG_DIRS"
-            value = "/var/lib/kafka/data"
+            name  = "KAFKA_KRAFT_MODE"
+            value = "true"
           }
 
-          # KRaft cluster ID (ensure consistency for multi-node setups)
           env {
-            name  = "KAFKA_KRAFT_CLUSTER_ID"
-            value = "B1d9FyhPRJ-aXLZ7buvU5A" # Generated or predefined
+            name  = "KAFKA_PROCESS_ROLES"
+            value = "broker,controller"
+          }
+
+          env {
+            name  = "KAFKA_NODE_ID"
+            value = "1"
+          }
+
+          env {
+            name  = "KAFKA_CONTROLLER_QUORUM_VOTERS"
+            value = "1@localhost:9093"
+          }
+
+          env {
+            name  = "CLUSTER_ID"
+            value = "B1d9FyhPRJ-aXLZ7buvU5A"
           }
 
           volume_mount {
-            name       = "kafka-data"
             mount_path = "/var/lib/kafka/data"
-          }
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "200Mi"
-            }
-            limits = {
-              cpu    = "200m"
-              memory = "400Mi"
-            }
-          }
-
-          liveness_probe {
-            exec {
-              command = ["sh", "-c", "echo dump | nc localhost 9092"]
-            }
-            initial_delay_seconds = 100
-            period_seconds        = 100
-          }
-
-          readiness_probe {
-            exec {
-              command = ["sh", "-c", "echo dump | nc localhost 9092"]
-            }
-            initial_delay_seconds = 100
-            period_seconds        = 100
-          }
-
-          startup_probe {
-            exec {
-              command = ["sh", "-c", "echo dump | nc localhost 9092"]
-            }
-            initial_delay_seconds = 100
-            period_seconds        = 100
+            name       = "kafka-storage"
           }
         }
 
         volume {
-          name = "kafka-data"
-          empty_dir {}
+          name = "kafka-storage"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.kafka_pvc.metadata[0].name
+          }
         }
       }
     }
-  }
-}
-
-resource "kubernetes_service" "kafka" {
-  metadata {
-    name      = var.name
-    namespace = var.namespace
-  }
-
-  spec {
-    selector = {
-      app = "kafka"
-    }
-
-    port {
-      name        = "client"
-      port        = 9092
-      target_port = 9092
-    }
-
-    port {
-      name        = "controller"
-      port        = 9093
-      target_port = 9093
-    }
-
-    type = "ClusterIP"
   }
 }
